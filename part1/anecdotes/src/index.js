@@ -5,9 +5,13 @@ const Button = ({ handlerClick, text }) => (
   <button onClick={handlerClick}>{text}</button>
 );
 //Initial State
-const points = [0, 0, 0, 0, 0, 0];
+const points = [0, 4, 6, 3, 0, 0];
+const maxVoted = Math.max(...points);
+const anecdoteMaxVoted = [...points].indexOf(maxVoted);
 
 const App = (props) => {
+  // if you want a random anecdote in onload
+  //const [selected, setSelected] = useState(Math.floor(Math.random() * (6 - 0) + 0));
   const [selected, setSelected] = useState(0);
   const [votes, setVotes] = useState([...points]);
 
@@ -16,17 +20,25 @@ const App = (props) => {
     return setVotes([...votes]);
   };
   return (
-    <div>
-      {props.anecdotes[selected]} <br /> <br />
-      votes: {votes[selected]} <br />
-      <Button handlerClick={() => handlerVote([selected])} text="vote!" />
-      <Button
-        handlerClick={() =>
-          setSelected(Math.floor(Math.random() * (6 - 0) + 0))
-        }
-        text="next anecdote"
-      />
-    </div>
+    <>
+      <div>
+        <h2>Anecdote of the Day</h2>
+        {props.anecdotes[selected]} <br /> <br />
+        Has {votes[selected]} votes! <br />
+        <Button handlerClick={() => handlerVote([selected])} text="vote!" />
+        <Button
+          handlerClick={() =>
+            setSelected(Math.floor(Math.random() * (6 - 0) + 0))
+          }
+          text="next anecdote"
+        />
+      </div>
+      <div>
+        <h2>Anecdote with most votes</h2>
+        {props.anecdotes[anecdoteMaxVoted]} <br />
+        Has {maxVoted} votes! <br />
+      </div>
+    </>
   );
 };
 
