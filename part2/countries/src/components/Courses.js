@@ -1,3 +1,4 @@
+//Module of Courses
 const Courses = ({ courses }) => {
   const Header = ({ title }) => <h2>{title}</h2>;
   const Content = ({ parts }) => {
