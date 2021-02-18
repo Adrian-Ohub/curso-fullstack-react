@@ -18,8 +18,6 @@ const Course = ({ course }) => {
 };
 const Header = ({ title }) => <h1>{title}</h1>;
 const Content = ({ parts }) => {
-  let sum = 0;
-  parts.forEach((parts) => (sum += parts.exercises));
   return (
     <div>
       {parts.map((e) => (
