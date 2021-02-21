@@ -48,6 +48,8 @@ const App = () => {
     }
   };
 
+  const list = showAll ? persons : filterPersons;
+
   return (
     <div>
       <h2>PhoneBook</h2>
@@ -59,11 +61,7 @@ const App = () => {
         handlerChange={handlerChange}
       />
       <h2>Numbers</h2>
-      <Persons
-        showAll={showAll}
-        persons={persons}
-        filterPersons={filterPersons}
-      />
+      <Persons list={list} />
     </div>
   );
 };

@@ -1,6 +1,5 @@
-export const Persons = ({ showAll, persons, filterPersons }) => {
-  const list = showAll ? persons : filterPersons;
-  const listOfPersons = list.map((person) => {
+export const Persons = ({ list }) =>
+  list.map((person) => {
     return (
       <span key={person.name}>
         {person.name} {person.number}
@@ -8,5 +7,3 @@ export const Persons = ({ showAll, persons, filterPersons }) => {
       </span>
     );
   });
-  return listOfPersons;
-};
