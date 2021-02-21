@@ -34,11 +34,12 @@ const App = () => {
   const handlerFilter = (event) => {
     setFilter(event.target.value);
     if (event.target.value) {
-      setShowAll(false);
-      const addFilter = persons.filter((person) =>
-        person.name.toLowerCase().includes(filter.toLowerCase())
+      setFilterPersons(
+        persons.filter((person) =>
+          person.name.toLowerCase().match(event.target.value.toLowerCase())
+        )
       );
-      setFilterPersons(addFilter);
+      setShowAll(false);
     } else {
       setShowAll(true);
     }
