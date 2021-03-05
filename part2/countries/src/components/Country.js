@@ -1,25 +1,28 @@
+import { Weather } from "../components/Weather";
 export const Country = ({ country }) => {
-  const probandoAssign = Object.assign(country[0]);
+  let { name, capital, population, languages, flag } = Object.assign(
+    country[0]
+  );
+
   return (
-    <div key={probandoAssign.name}>
-      <h2>{probandoAssign.name}</h2>
-      capital: <span>{probandoAssign.capital}</span>
+    <div key={name}>
+      <h2>{name}</h2>
+      capital: <span>{capital}</span>
       <br />
-      population: {probandoAssign.population}
+      population: {population}
       <br />
       <h3>Languages</h3>
       <br />
       <ul>
-        {probandoAssign.languages.map((e) => {
+        {languages.map((e) => {
           return <li key={e.iso639_1}>{e.name}</li>;
         })}
       </ul>
       <br />
-      <img
-        src={probandoAssign.flag}
-        alt={probandoAssign.name}
-        style={{ height: "10rem" }}
-      />
+      <img src={flag} alt={name} style={{ height: "10rem" }} />
+      <br />
+      <h3>Weather in {capital}</h3>
+      <Weather capital={capital} />
     </div>
   );
 };
