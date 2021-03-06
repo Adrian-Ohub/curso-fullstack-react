@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Api_Countries } from "./services/index";
+import axios from "axios";
 import { Country } from "./components/Country";
 import { Show } from "./components/Show";
 
@@ -9,9 +9,8 @@ const App = () => {
   const [searchCountries, setSearchCountries] = useState([]);
 
   useEffect(() => {
-    //Devuelve una promesa!!
-    Api_Countries().then((data) => {
-      setCountries(data);
+    axios.get("https://restcountries.eu/rest/v2/all").then((response) => {
+      setCountries(response.data);
     });
   }, []);
 
