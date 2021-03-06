@@ -1,19 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { addPerson, deletePerson, getAll } from "./services/index";
 import { Persons } from "./components/Persons.js";
 import { PersonsForm } from "./components/PersonsForm.js";
 import { Filter } from "./components/Filter.js";
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: "Arto Hellas", number: "040-123456" },
-    { name: "Ada Lovelace", number: "39-44-5323523" },
-    { name: "Dan Abramov", number: "12-43-234345" },
-    { name: "Mary Poppendieck", number: "39-23-6423122" },
-  ]);
+  const [persons, setPersons] = useState([]);
   const [newPerson, setnewPerson] = useState({ name: "", number: "" });
   const [filterPersons, setFilterPersons] = useState([]);
   const [filter, setFilter] = useState("");
   const [showAll, setShowAll] = useState(true);
+  const [switchDelPerson, setSwitchPerson] = useState(false);
+
+  useEffect(() => {
+    getAll().then((data) => {
+      setPersons(data);
+    });
+  }, [switchDelPerson]);
 
   const addNewPerson = (event) => {
     event.preventDefault();
@@ -23,9 +26,24 @@ const App = () => {
     };
     persons.find((persons) => persons.name === newPerson.name)
       ? alert(`${newPerson.name} is already added to phonebook`)
-      : setPersons(persons.concat(personObject));
+      : addPerson({ personObject }).then((data) => {
+          setPersons(persons.concat(data));
+        });
 
     setnewPerson({ name: "", number: "" });
+  };
+
+  const deleteSelectedPerson = (idPerson, namePerson) => {
+    alert(`Are you sure to delete ${namePerson} ?`);
+    if (window.confirm) {
+      deletePerson({ idPerson }).then((data) => {
+        data.status === 200
+          ? //Para hacer un switch cogemos el valor anterior y lo cambiamos
+            setSwitchPerson((w) => !w)
+          : alert("404 error, try again");
+      });
+    }
+    /* setSwitchPerson(false); */
   };
 
   const handlerChange = (event) => {
@@ -61,7 +79,7 @@ const App = () => {
         handlerChange={handlerChange}
       />
       <h2>Numbers</h2>
-      <Persons list={list} />
+      <Persons list={list} deleteSelectedPerson={deleteSelectedPerson} />
     </div>
   );
 };
