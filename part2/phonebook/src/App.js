@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { addPerson, deletePerson, getAll } from "./services/index";
+import {
+  addPerson,
+  deletePerson,
+  changeNumberPerson,
+  getAll,
+} from "./services/index";
 import { Persons } from "./components/Persons.js";
 import { PersonsForm } from "./components/PersonsForm.js";
 import { Filter } from "./components/Filter.js";
@@ -24,8 +29,12 @@ const App = () => {
       name: newPerson.name,
       number: newPerson.number,
     };
-    persons.find((persons) => persons.name === newPerson.name)
-      ? alert(`${newPerson.name} is already added to phonebook`)
+    const findPerson = persons.find(
+      (persons) => persons.name === newPerson.name
+    );
+
+    findPerson
+      ? changeNumber(findPerson, newPerson.number)
       : addPerson({ personObject }).then((data) => {
           setPersons(persons.concat(data));
         });
@@ -34,16 +43,31 @@ const App = () => {
   };
 
   const deleteSelectedPerson = (idPerson, namePerson) => {
-    alert(`Are you sure to delete ${namePerson} ?`);
-    if (window.confirm) {
+    if (window.confirm(`Are you sure to delete ${namePerson} ?`)) {
       deletePerson({ idPerson }).then((data) => {
         data.status === 200
           ? //Para hacer un switch cogemos el valor anterior y lo cambiamos
             setSwitchPerson((w) => !w)
-          : alert("404 error, try again");
+          : alert("Something wrong, try again");
       });
     }
-    /* setSwitchPerson(false); */
+  };
+
+  const changeNumber = (person, number) => {
+    if (
+      window.confirm(
+        `${person.name} is already added to phonebook, replace de old number with a new one?`
+      )
+    ) {
+      const personObject = {
+        id: person.id,
+        name: person.name,
+        number: number,
+      };
+      changeNumberPerson({ personObject }).then((data) => {
+        data ? setSwitchPerson((w) => !w) : alert("Something wrong, try again");
+      });
+    }
   };
 
   const handlerChange = (event) => {

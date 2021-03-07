@@ -21,6 +21,15 @@ export const addPerson = ({ personObject }) => {
   });
 };
 
+export const changeNumberPerson = ({ personObject }) => {
+  return axios
+    .put(`${url}/${personObject.id}`, personObject)
+    .then((response) => {
+      const { data } = response;
+      return data;
+    });
+};
+
 export const deletePerson = ({ idPerson }) => {
   return axios
     .delete(`${url}/${idPerson}`)
