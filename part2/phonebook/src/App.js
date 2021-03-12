@@ -45,7 +45,7 @@ const App = () => {
   const deleteSelectedPerson = (idPerson, namePerson) => {
     if (window.confirm(`Are you sure to delete ${namePerson} ?`)) {
       deletePerson({ idPerson }).then((data) => {
-        data.status === 200
+        data.status === 204
           ? //Para hacer un switch cogemos el valor anterior y lo cambiamos
             setSwitchPerson((w) => !w)
           : alert("Something wrong, try again");

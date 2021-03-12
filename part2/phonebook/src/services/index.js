@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = "http://localhost:3001/persons";
+const url = "https://api-persons-fs.herokuapp.com/api/persons";
 
 export const getAll = () => {
   return axios.get(url).then((response) => {
@@ -34,6 +34,7 @@ export const deletePerson = ({ idPerson }) => {
   return axios
     .delete(`${url}/${idPerson}`)
     .then((response) => {
+      console.log(response);
       return response;
     })
     .catch((error) => {
